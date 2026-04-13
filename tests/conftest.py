@@ -5,6 +5,7 @@ from faker import Faker
 
 faker = Faker()
 
+
 @pytest.fixture(scope="session")
 def base_url():
     return "http://54.255.195.111:5171"
@@ -101,3 +102,17 @@ def teacher_payload():
             "designation": random_designation
         },
     }
+
+
+@pytest.fixture
+def test_payload_structure():
+    structure = {
+        "_id": str,
+        "name": str,
+        "email": str,
+        "department": str,
+        "teacherId": int,
+        "designation": str
+    }
+
+    return structure
