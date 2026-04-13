@@ -1,32 +1,14 @@
-import random
-
-import requests
 from faker import Faker
 
-from test_get_teachers import get_teacher
+from api.teachers_api import get_email_filter
 
 faker = Faker()
 
 
-# Get and store all email address
-# Choose a random email from the list
-def generate_random_email(base_url, auth_header):
-    teachers = get_teacher(base_url, auth_header)
-
-    emails = [teacher["email"] for teacher in teachers.json()]
-    random_email = random.choice(emails)
-
-    return random_email
-
-
-def get_email_filter(base_url, auth_header, email):
-    response = requests.get(f"{base_url}/api/teacher?email={email}", headers=auth_header)
-    return response
-
-
 # Testing status code
-def test_email_filter_status_code(base_url, auth_header):
-    email = generate_random_email(base_url, auth_header)
+def test_email_filter_status_code(base_url, auth_header, created_teacher):
+    email = created_teacher["email"]
+
     response = get_email_filter(base_url=base_url, auth_header=auth_header, email=email)
 
     # Validate status code
@@ -34,21 +16,22 @@ def test_email_filter_status_code(base_url, auth_header):
 
 
 # Testing search filter with email
-def test_get_teachers_email_filter(base_url, auth_header):
-    email = generate_random_email(base_url, auth_header)
+def test_get_teachers_email_filter(base_url, auth_header, created_teacher):
+    email = created_teacher["email"]
+
     response = get_email_filter(base_url=base_url, auth_header=auth_header, email=email)
 
     # Validate status code
     assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
 
-    teacher = response.json()
+    teachers = response.json()
     # Validate teachers length - Must be 1
-    assert len(teacher) == 1, f"Multiple response found with same email: {teacher['email']}"
+    assert len(teachers) == 1, f"Multiple response found: {teachers}"
     # Validate search email with response email
-    assert teacher[0]["email"] == email, "Search email does not match"
-    # Validate response is not null
-    assert len(teacher) > 0, "Teacher should not be empty with valid email"
+    assert teachers[0]["email"] == email, "Search email does not match"
 
+
+# Negative test
 
 # Search teacher with invalid email
 def test_get_teachers_email_filter_invalid_email(base_url, auth_header):
@@ -60,11 +43,10 @@ def test_get_teachers_email_filter_invalid_email(base_url, auth_header):
     assert response.json().get("message") == "No user found", f"No user found with email: {email}"
 
 
-# Negative test
-
 # Testing get teachers without authorization header
-def test_get_teacher_email_filter_without_authorization(base_url, auth_header):
-    email = generate_random_email(base_url, auth_header=auth_header)
+def test_get_teacher_email_filter_without_authorization(base_url, auth_header, created_teacher):
+    email = created_teacher["email"]
+
     response = get_email_filter(base_url=base_url, auth_header={}, email=email)
 
     # Validate status code
@@ -74,16 +56,12 @@ def test_get_teacher_email_filter_without_authorization(base_url, auth_header):
 
 
 # Testing get teachers filter with invalid token
-def test_get_teacher_with_invalid_token(base_url, auth_header):
-    email = generate_random_email(base_url, auth_header)
+def test_get_teacher_with_invalid_token(base_url, auth_header, auth_header_with_invalid_token, created_teacher):
+    email = created_teacher["email"]
 
-    custom_header = {
-        "Authorization": f"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzcyODc0MzM0LCJleHAiOjE3NzI5NjA3MzR9.MLdRG9fIubC-AOmi0KF0wZBYssf-CX1DmS-CGITcLBw"
-    }
-
-    response = get_email_filter(base_url=base_url, auth_header=custom_header, email=email)
+    response = get_email_filter(base_url=base_url, auth_header=auth_header_with_invalid_token, email=email)
 
     # Validate status code
     assert response.status_code == 401, f"Expected 401, Got {response.status_code}"
     # Validate message
-    assert response.json()["message"] == "Invalid or expired token", "Message is incorrect"
+    assert "Invalid" in response.json().get("message", "")

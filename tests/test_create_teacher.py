@@ -1,13 +1,4 @@
-import requests
-
-
-def create_teacher(base_url, auth_header, payload):
-    if auth_header:
-        response = requests.post(f"{base_url}/api/teacher", json=payload, headers=auth_header)
-    else:
-        response = requests.post(f"{base_url}/api/teacher", json=payload)
-
-    return response
+from api.teachers_api import create_teacher
 
 
 # Positive tests
@@ -39,7 +30,7 @@ def test_post_teacher_with_valid_payload(base_url, auth_header, teacher_payload)
 
 # Testing create teacher without authorization header
 def test_post_teacher_without_authorization(base_url, teacher_payload):
-    response = create_teacher(base_url, auth_header=None, payload=teacher_payload)
+    response = create_teacher(base_url, auth_header={}, payload=teacher_payload)
 
     # Validate status code
     assert response.status_code == 401, f"Expected 401, Got {response.status_code}"

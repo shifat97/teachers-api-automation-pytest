@@ -1,7 +1,10 @@
+import random
+
 import pytest
 import requests
-import random
 from faker import Faker
+
+from api.teachers_api import create_teacher
 
 faker = Faker()
 
@@ -40,6 +43,12 @@ def auth_header(login_payload):
     headers = {"Authorization": f"Bearer {auth_token}"}
 
     return headers
+
+
+@pytest.fixture(scope="session")
+def auth_header_with_invalid_token():
+    return {
+        "Authorization": f"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzcyODc0MzM0LCJleHAiOjE3NzI5NjA3MzR9.MLdRG9fIubC-AOmi0KF0wZBYssf-CX1DmS-CGITcLBw"}
 
 
 @pytest.fixture
@@ -116,3 +125,13 @@ def test_payload_structure():
     }
 
     return structure
+
+
+@pytest.fixture
+def created_teacher(base_url, auth_header, teacher_payload):
+    response = create_teacher(
+        base_url=base_url,
+        auth_header=auth_header,
+        payload=teacher_payload["valid_payload"]
+    )
+    return response.json()

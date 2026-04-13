@@ -1,5 +1,6 @@
 import requests
 
+
 # Positive tests
 
 # Test login with valid credentials
@@ -13,6 +14,7 @@ def test_login_with_valid_credentials(base_url, login_payload):
     assert "authToken" in data, "Token is missing in the response"
     # Validate if token is empty or not
     assert data["authToken"], "Token is empty"
+
 
 # Negative tests
 
@@ -30,6 +32,7 @@ def test_login_with_invalid_credentials(base_url, login_payload):
     # Validate message
     assert data["message"] == "Invalid credentials", f"Expected {'Invalid credentials'}, Got {data['message']}"
 
+
 # Test login with valid username and invalid password
 def test_login_with_valid_username_invalid_password(base_url, login_payload):
     response = requests.post(f"{base_url}/login", json=login_payload["valid_username_invalid_password"])
@@ -43,7 +46,8 @@ def test_login_with_valid_username_invalid_password(base_url, login_payload):
     assert data["message"], "Message is empty"
     # Validate message
     assert data["message"] == "Invalid credentials", f"Expected {'Invalid credentials'}, Got {data['message']}"
-    
+
+
 # Test login with invalid username and valid password
 def test_login_with_invalid_username_valid_password(base_url, login_payload):
     response = requests.post(f"{base_url}/login", json=login_payload["invalid_username_valid_password"])
