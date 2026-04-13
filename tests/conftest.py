@@ -80,7 +80,7 @@ def teacher_payload():
             "department": random_department,
             "designation": random_designation
         },
-        "payload_without_designation ": {
+        "payload_without_designation": {
             "name": faker.first_name() + " " + faker.last_name(),
             "email": faker.email(),
             "department": random_department,
