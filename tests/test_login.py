@@ -14,6 +14,8 @@ def test_login_with_valid_credentials(base_url, login_payload):
     # Validate if token is empty or not
     assert data["authToken"], "Token is empty"
 
+# Negative tests
+
 # Test login with invalid username and password
 def test_login_with_invalid_credentials(base_url, login_payload):
     response = requests.post(f"{base_url}/login", json=login_payload["invalid_username_invalid_password"])
