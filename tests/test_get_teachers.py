@@ -85,7 +85,7 @@ def test_get_teacher_without_authorization(base_url):
 
 
 # Testing get teachers filter with invalid token
-def test_get_teacher_with_invalid_token(base_url, auth_header, auth_header_with_invalid_token, created_teacher):
+def test_get_teacher_with_invalid_token(base_url, auth_header, auth_header_with_invalid_token):
     response = get_teacher(base_url=base_url, auth_header=auth_header_with_invalid_token)
 
     # Logger to get details about the response
