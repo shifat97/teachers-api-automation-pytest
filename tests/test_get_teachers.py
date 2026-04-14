@@ -1,6 +1,6 @@
 import logging
 
-from api.teachers_api import create_teacher, get_teacher
+from api.teachers_api import get_teacher
 
 logger = logging.getLogger(__name__)
 
