@@ -1,6 +1,8 @@
-import requests
+import logging
 
 from api.teachers_api import create_teacher, get_teacher
+
+logger = logging.getLogger(__name__)
 
 
 # Positive test
@@ -9,6 +11,9 @@ from api.teachers_api import create_teacher, get_teacher
 def test_get_teachers_status_code(base_url, auth_header, teacher_payload):
     response = get_teacher(base_url=base_url, auth_header=auth_header)
 
+    # Logger to get details about the response
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
 
@@ -16,6 +21,9 @@ def test_get_teachers_status_code(base_url, auth_header, teacher_payload):
 # Validate payload structure
 def test_get_teachers_payload_structure(base_url, auth_header, test_payload_structure):
     response = get_teacher(base_url=base_url, auth_header=auth_header)
+
+    # Logger to get details about the response
+    logger.info(f"Response: {response.json()[:5]}")
 
     assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
     teachers = response.json()
@@ -36,6 +44,9 @@ def test_get_teachers_payload_structure(base_url, auth_header, test_payload_stru
 def test_get_teachers_duplicate_id(base_url, auth_header):
     response = get_teacher(base_url=base_url, auth_header=auth_header)
 
+    # Logger to get details about the response
+    logger.info(f"Response: {response.status_code}")
+
     assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
     teachers = response.json()
 
@@ -44,17 +55,17 @@ def test_get_teachers_duplicate_id(base_url, auth_header):
 
 
 # Validate if created teacher is in the list or not
-def test_get_teacher_after_creation(base_url, auth_header, teacher_payload):
-    # Create a teacher for testing purpose
-    create_teacher(base_url=base_url, auth_header=auth_header, payload=teacher_payload["valid_payload"])
-
+def test_get_teacher_after_creation(base_url, auth_header, created_teacher):
     response = get_teacher(base_url=base_url, auth_header=auth_header)
+
+    # Logger to get details about the response
+    logger.info(f"Response: {response.status_code}")
 
     assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
     teachers = response.json()
 
     ids = [teacher["teacherId"] for teacher in teachers]
-    teacher_id = teacher_payload["valid_payload"]["teacherId"]
+    teacher_id = created_teacher["teacherId"]
     assert teacher_id in ids, f"{teacher_id} is not in the list after creation"
 
 
@@ -62,9 +73,25 @@ def test_get_teacher_after_creation(base_url, auth_header, teacher_payload):
 
 # Testing get teachers without authorization header
 def test_get_teacher_without_authorization(base_url):
-    response = requests.get(f"{base_url}/api/teacher", headers={})
+    response = get_teacher(base_url=base_url, auth_header={})
+
+    # Logger to get details about the response
+    logger.info(f"Response: {response.json()}")
 
     # Validate status code
     assert response.status_code == 401, f"Expected 401, Got {response.status_code}"
     # Validate message
     assert response.json()["message"] == "Missing or invalid Authorization header", "Message is incorrect"
+
+
+# Testing get teachers filter with invalid token
+def test_get_teacher_with_invalid_token(base_url, auth_header, auth_header_with_invalid_token, created_teacher):
+    response = get_teacher(base_url=base_url, auth_header=auth_header_with_invalid_token)
+
+    # Logger to get details about the response
+    logger.info(f"Response: {response.json()}")
+
+    # Validate status code
+    assert response.status_code == 401, f"Expected 401, Got {response.status_code}"
+    # Validate message
+    assert "Invalid" in response.json().get("message", "")
