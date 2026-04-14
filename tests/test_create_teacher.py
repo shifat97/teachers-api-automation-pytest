@@ -1,14 +1,22 @@
 from api.teachers_api import create_teacher
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Positive tests
 # Testing create teacher with valid payload
 def test_post_teacher_with_valid_payload(base_url, auth_header, teacher_payload):
     response = create_teacher(base_url=base_url, auth_header=auth_header, payload=teacher_payload["valid_payload"])
-    data = response.json()
+
+    # Logger
+    logger.info(f"Response: {response.json()}")
 
     # Validate status code
     assert response.status_code in [200, 201], f"Expected 200 or 201, Got {response.status_code}"
+
+    data = response.json()
+
     # Validate if _id exists in the payload or not
     assert "_id" in data, "_id is missing from response"
     # Validate if _id is not empty
@@ -32,6 +40,9 @@ def test_post_teacher_with_valid_payload(base_url, auth_header, teacher_payload)
 def test_post_teacher_without_authorization(base_url, teacher_payload):
     response = create_teacher(base_url, auth_header={}, payload=teacher_payload)
 
+    # Logger
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 401, f"Expected 401, Got {response.status_code}"
     # Validate message
@@ -42,6 +53,9 @@ def test_post_teacher_without_authorization(base_url, teacher_payload):
 def test_post_teacher_without_name_field(base_url, auth_header, teacher_payload):
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_without_name"])
+
+    # Logger
+    logger.info(f"Response: {response.status_code}")
 
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
@@ -54,6 +68,9 @@ def test_post_teacher_without_email_field(base_url, auth_header, teacher_payload
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_without_email"])
 
+    # Logger
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
     # Validate error message
@@ -64,6 +81,9 @@ def test_post_teacher_without_email_field(base_url, auth_header, teacher_payload
 def test_post_teacher_without_department_field(base_url, auth_header, teacher_payload):
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_without_department"])
+
+    # Logger
+    logger.info(f"Response: {response.status_code}")
 
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
@@ -76,6 +96,9 @@ def test_post_teacher_without_teacher_id_field(base_url, auth_header, teacher_pa
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_without_teacher_id"])
 
+    # Logger
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
     # Validate error message
@@ -86,6 +109,9 @@ def test_post_teacher_without_teacher_id_field(base_url, auth_header, teacher_pa
 def test_post_teacher_without_designation_field(base_url, auth_header, teacher_payload):
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_without_designation"])
+
+    # Logger
+    logger.info(f"Response: {response.status_code}")
 
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
@@ -98,6 +124,9 @@ def test_post_teacher_with_invalid_department(base_url, auth_header, teacher_pay
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_with_invalid_department"])
 
+    # Logger
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
     # Validate error message
@@ -109,7 +138,10 @@ def test_post_teacher_with_invalid_department(base_url, auth_header, teacher_pay
 def test_post_teacher_with_invalid_email(base_url, auth_header, teacher_payload):
     response = create_teacher(base_url=base_url, auth_header=auth_header,
                               payload=teacher_payload["payload_with_invalid_email"])
-    print(response.json(), response.status_code)
+
+    # Logger
+    logger.info(f"Response: {response.status_code}")
+
     # Validate status code
     assert response.status_code == 400, f"Expected 400, Got {response.status_code}"
     # Validate error message
