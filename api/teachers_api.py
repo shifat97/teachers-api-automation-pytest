@@ -21,7 +21,7 @@ def get_teacher(base_url, auth_header):
 
 # GET
 # Function for email filter endpoint
-def get_email_filter(base_url, auth_header, email):
-    response = requests.get(f"{base_url}/api/teacher?email={email}", headers=auth_header)
+def get_teacher_filter(base_url, auth_header, filter_type, filter_value):
+    response = requests.get(f"{base_url}/api/teacher?{filter_type}={filter_value}", headers=auth_header)
     logger_init(response)
     return response
