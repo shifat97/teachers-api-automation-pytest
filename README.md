@@ -4,7 +4,7 @@ A robust, modular, and professional API automation testing framework built using
 
 ## 📊 Test Execution Report
 
-![Test Report Screenshot](report_screenshot.png)
+![Test Report Screenshot](assets/report.png)
 *A professional HTML report generated after test execution, showing pass/fail status and detailed logs.*
 
 ## 🚀 Key Features
