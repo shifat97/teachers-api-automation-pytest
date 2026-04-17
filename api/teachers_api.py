@@ -33,3 +33,11 @@ def get_teacher_id(base_url, auth_header, teacher_id):
     response = requests.get(f"{base_url}/api/teacher/{teacher_id}", headers=auth_header)
     logger_init(response)
     return response
+
+
+# PUT
+# Function for email filter endpoint
+def put_teacher_id(base_url, auth_header, payload, teacher_id):
+    response = requests.put(f"{base_url}/api/teacher/{teacher_id}", json=payload, headers=auth_header)
+    logger_init(response)
+    return response
