@@ -2,14 +2,19 @@
 
 A robust, modular, and professional API automation testing framework built using **Python** and **Pytest**. This framework validates a RESTful API for managing teacher records, covering CRUD (Create, Read, Update, Delete) operations, filtering, and authentication.
 
+## 📊 Test Execution Report
+
+![Test Report Screenshot](report_screenshot.png)
+*A professional HTML report generated after test execution, showing pass/fail status and detailed logs.*
+
 ## 🚀 Key Features
 
 - **End-to-End API Testing**: Comprehensive test coverage for all CRUD operations on teacher data.
 - **Modular Architecture**: Clean separation between API methods (`api/`), test logic (`tests/`), and utility functions (`utils/`).
 - **Dynamic Data Generation**: Integration with **Faker** for generating realistic test data (emails, names, phone numbers).
 - **Session-Based Authentication**: Secure handling of JWT/auth tokens via Pytest fixtures for seamless test execution.
+- **Detailed HTML Reporting**: Automatic generation of visual test reports with execution summaries.
 - **Enhanced Logging**: Custom logging configuration for detailed tracking of request/response cycles.
-- **Parametrized Testing**: Validates various filter scenarios (ID, Email, Department) efficiently.
 
 ## 🛠 Tech Stack
 
@@ -17,7 +22,7 @@ A robust, modular, and professional API automation testing framework built using
 - **Testing Framework**: [Pytest](https://pytest.org/)
 - **API Communication**: [Requests](https://requests.readthedocs.io/)
 - **Data Generation**: [Faker](https://faker.readthedocs.io/)
-- **Reporting/Logging**: Built-in Logging with formatted CLI output.
+- **Reporting**: [Pytest-HTML](https://pytest-html.readthedocs.io/)
 
 ## 📁 Project Structure
 
@@ -27,6 +32,7 @@ A robust, modular, and professional API automation testing framework built using
 ├── utils/              # Helper functions (e.g., custom logger)
 ├── pytest.ini          # Global Pytest configuration
 ├── requirements.txt    # Project dependencies
+├── report.html         # Generated test report
 └── README.md           # Documentation
 ```
 
@@ -54,12 +60,12 @@ A robust, modular, and professional API automation testing framework built using
    pip install -r requirements.txt
    ```
 
-## 🧪 Running Tests
+## 🧪 Running Tests & Generating Reports
 
-To execute all tests with detailed logging, run the following command in the project root:
+To execute all tests and generate a professional HTML report:
 
 ```bash
-pytest
+pytest --html=report.html --self-contained-html
 ```
 
 To run a specific test file:
@@ -67,8 +73,10 @@ To run a specific test file:
 pytest tests/test_create_teacher.py
 ```
 
-To run tests and see real-time log output (configured in `pytest.ini`):
+To run tests and see real-time log output:
 ```bash
 pytest -s
 ```
 
+---
+*Developed by Md. Shifat Bin Reza.* 
