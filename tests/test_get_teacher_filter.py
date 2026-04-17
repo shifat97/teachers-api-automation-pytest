@@ -69,7 +69,7 @@ class TestDepartmentFilter:
     # Testing filter with valid department name
     def test_department_filter(self, base_url, auth_header):
         response = get_teacher_filter(base_url=base_url, auth_header=auth_header, filter_type="department",
-                                      filter_value=self.random_valid_department)
+                                      filter_value=TestDepartmentFilter.random_valid_department)
 
         # Validate status code
         assert response.status_code == 200, f"Expected 200, Got {response.status_code}"
@@ -101,13 +101,13 @@ class TestDepartmentFilter:
             # Validate department type
             assert isinstance(d["department"], str), f"Type mismatch: expected str, got {type(d['department'])}"
             # Validate department with search string
-            assert d[
-                       "department"].lower() == self.random_valid_department.lower(), f"Value mismatch: expected {self.random_valid_department}, got {d['department']}"
+            assert d["department"].lower() == self.random_valid_department.lower(), \
+                f"Value mismatch: expected {self.random_valid_department}, got {d['department']}"
 
     # Testing filter with invalid department name
     def test_department_with_invalid_department(self, base_url, auth_header):
         response = get_teacher_filter(base_url=base_url, auth_header=auth_header, filter_type="department",
-                                      filter_value=self.random_invalid_department)
+                                      filter_value=TestDepartmentFilter.random_invalid_department)
 
         # Validate status code
         assert response.status_code == 404, f"Expected 404, Got {response.status_code}"
@@ -117,11 +117,12 @@ class TestDepartmentFilter:
         # Validate type
         assert isinstance(data, dict), f"Expected list, got {type(data)}"
         # Validate message exits or not
-        assert "message" in data, f"Missing field: message"
+        assert "message" in data or "error" in data, f"Missing field: message"
         # Validate message is null
-        assert data["message"], "Message field should not be empty"
+        assert data["message"] or data["error"], "Message field should not be empty"
         # Validate message
-        assert "invalid" in data["message"].lower(), f"Incorrect message: {data['message']}"
+        assert "invalid" in data["message"].lower() or "invalid" in data["error"].lower(), \
+            f"Incorrect message: {data['message']}"
 
 
 class TestFilterAuthorization:

@@ -27,7 +27,7 @@ class TestGetTeacherId:
         # Validate data type
         assert isinstance(data, dict), f"Expected dict, Got {type(data)}"
         # Validate _id
-        assert data["_id"] == teacher_id, f"Expected {teacher_id}, Got {data['id']}"
+        assert data["teacherId"] == teacher_id, f"Expected {teacher_id}, Got {data['id']}"
         # Validate payload
         for key, value in created_teacher.items():
             # Validate if created key exits in the response
