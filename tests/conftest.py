@@ -4,7 +4,7 @@ import pytest
 import requests
 from faker import Faker
 
-from api.teachers_api import create_teacher
+from api.teachers_api import create_teacher, delete_teacher_id
 
 faker = Faker()
 
@@ -134,4 +134,7 @@ def created_teacher(base_url, auth_header, teacher_payload):
         auth_header=auth_header,
         payload=teacher_payload["valid_payload"]
     )
-    return response.json()
+
+    yield response.json()
+
+    delete_teacher_id(base_url, auth_header, response.json().get("teacherId"))
