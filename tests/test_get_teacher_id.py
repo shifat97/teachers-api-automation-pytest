@@ -72,7 +72,8 @@ class TestGetTeacherAuthorization:
         # Validate status code
         assert response.status_code == 401, f"Expected 401, Got {response.status_code}"
         # Validate message
-        assert response.json()["message"] == "Teacher not found", "Message is incorrect"
+        assert response.json()[
+                   "message"] == "Missing or invalid Authorization header", "Message is incorrect"
 
     # Testing get teachers filter with invalid token
     def test_get_teacher_with_invalid_token(self, base_url, auth_header, auth_header_with_invalid_token,
