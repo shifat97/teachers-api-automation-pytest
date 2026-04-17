@@ -1,4 +1,21 @@
-.venv
-.idea
-
+# Virtual Environment
 venv/
+.venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+.pytest_cache
+
+# IDEs
+.idea/
+.vscode/
+
+# Logs
+*.log
