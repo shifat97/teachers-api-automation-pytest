@@ -2,6 +2,12 @@ import requests
 
 from utils.logger import logger_init
 
+# POST
+# Function for login teacher
+def login(base_url, payload):
+    response = requests.post(f"{base_url}/login", json=payload)
+    logger_init(response)
+    return response
 
 # POST
 # Function for post teacher endpoint

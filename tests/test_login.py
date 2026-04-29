@@ -1,11 +1,12 @@
 import requests
+from api.teachers_api import login
 
 
 # Positive tests
 
 # Test login with valid credentials
 def test_login_with_valid_credentials(base_url, login_payload):
-    response = requests.post(f"{base_url}/login", json=login_payload["valid_username_valid_password"])
+    response = login(base_url=base_url, payload=login_payload["valid_username_valid_password"])
 
     data = response.json()
     # Validate the status code
@@ -20,7 +21,7 @@ def test_login_with_valid_credentials(base_url, login_payload):
 
 # Test login with invalid username and password
 def test_login_with_invalid_credentials(base_url, login_payload):
-    response = requests.post(f"{base_url}/login", json=login_payload["invalid_username_invalid_password"])
+    response = login(base_url=base_url, payload=login_payload["valid_username_invalid_password"])
 
     data = response.json()
     # Validate status code
@@ -35,7 +36,7 @@ def test_login_with_invalid_credentials(base_url, login_payload):
 
 # Test login with valid username and invalid password
 def test_login_with_valid_username_invalid_password(base_url, login_payload):
-    response = requests.post(f"{base_url}/login", json=login_payload["valid_username_invalid_password"])
+    response = login(base_url=base_url, payload=login_payload["invalid_username_valid_password"])
 
     data = response.json()
     # Validate status code
@@ -50,7 +51,7 @@ def test_login_with_valid_username_invalid_password(base_url, login_payload):
 
 # Test login with invalid username and valid password
 def test_login_with_invalid_username_valid_password(base_url, login_payload):
-    response = requests.post(f"{base_url}/login", json=login_payload["invalid_username_valid_password"])
+    response = login(base_url=base_url, payload=login_payload["invalid_username_invalid_password"])
 
     data = response.json()
     # Validate status code
