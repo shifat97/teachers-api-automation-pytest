@@ -82,11 +82,12 @@ _A professional HTML report generated after test execution, showing pass/fail st
 4. **Environment Configuration**
    Create a `.env` file in the root directory and add the following variables:
     ```env
-    BASE_URL=YOUR_URL
-    PORT=PORT_NUMBER
-    ADMIN_USERNAME=USERNAME
-    ADMIN_PASSWORD=PASSWORD
-    TEST_INVALID_TOKEN=YOUR_TEST_TOKEN_HERE
+    BASE_URL = YOUR_URL
+    PORT = PORT_NUMBER
+    ADMIN_USERNAME = USERNAME
+    ADMIN_PASSWORD = PASSWORD
+    TEST_INVALID_TOKEN = YOUR_TEST_TOKEN_HERE
+    LOG_LEVEL = PRODUCTION OR STAGING
     ```
 
 ## 🧪 Running Tests & Generating Reports
