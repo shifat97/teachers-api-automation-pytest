@@ -1,7 +1,12 @@
 import json
 import logging
+import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
 logger = logging.getLogger(__name__)
+
 
 
 def logger_init(response):
@@ -27,3 +32,10 @@ def logger_init(response):
         logger.info(f"STATUS: {response.status_code}\nBODY:\n{pretty}")
 
     print("=" * 60 + "\n")
+
+
+def logger_config(response):
+    if os.getenv("LOG_LEVEL") == "production":
+        logger_init(response)
+    else:
+        return
