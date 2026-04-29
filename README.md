@@ -5,7 +5,7 @@ A robust, modular, and professional API automation testing framework built using
 ## 📊 Test Execution Report
 
 ![Test Report Screenshot](assets/report.png)
-*A professional HTML report generated after test execution, showing pass/fail status and detailed logs.*
+_A professional HTML report generated after test execution, showing pass/fail status and detailed logs._
 
 ## 🚀 Key Features
 
@@ -23,6 +23,7 @@ A robust, modular, and professional API automation testing framework built using
 - **API Communication**: [Requests](https://requests.readthedocs.io/)
 - **Data Generation**: [Faker](https://faker.readthedocs.io/)
 - **Reporting**: [Pytest-HTML](https://pytest-html.readthedocs.io/)
+- **Environment Management**: [Python-dotenv](https://pypi.org/project/python-dotenv/)
 
 ## 📁 Project Structure
 
@@ -30,6 +31,7 @@ A robust, modular, and professional API automation testing framework built using
 ├── api/                # API endpoint wrappers and request methods
 ├── tests/              # Test cases and conftest.py (fixtures)
 ├── utils/              # Helper functions (e.g., custom logger)
+├── .env                # Environment variables (Sensitive info)
 ├── pytest.ini          # Global Pytest configuration
 ├── requirements.txt    # Project dependencies
 ├── report.html         # Generated test report
@@ -39,26 +41,40 @@ A robust, modular, and professional API automation testing framework built using
 ## ⚙️ Setup & Installation
 
 ### Prerequisites
+
 - Python 3.8 or higher installed on your machine.
 
 ### Installation Steps
 
 1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/your-username/teachers-api-automation-pytest.git
-   cd teachers-api-automation-pytest
-   ```
+
+    ```bash
+    git clone https://github.com/your-username/teachers-api-automation-pytest.git
+    cd teachers-api-automation-pytest
+    ```
 
 2. **Create and Activate a Virtual Environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
 3. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Environment Configuration**
+   Create a `.env` file in the root directory and add the following variables:
+    ```env
+    BASE_URL=YOUR_URL
+    PORT=PORT_NUMBER
+    ADMIN_USERNAME=USERNAME
+    ADMIN_PASSWORD=PASSWORD
+    TEST_INVALID_TOKEN=YOUR_TEST_TOKEN_HERE
+    ```
 
 ## 🧪 Running Tests & Generating Reports
 
@@ -69,14 +85,17 @@ pytest --html=report.html --self-contained-html
 ```
 
 To run a specific test file:
+
 ```bash
 pytest tests/test_create_teacher.py
 ```
 
 To run tests and see real-time log output:
+
 ```bash
 pytest -s
 ```
 
 ---
-*Developed by Md. Shifat Bin Reza.* 
+
+_Developed by Md. Shifat Bin Reza._

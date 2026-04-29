@@ -1,25 +1,28 @@
+import os
 import random
 
 import pytest
 import requests
+from dotenv import load_dotenv
 from faker import Faker
 
 from api.teachers_api import create_teacher, delete_teacher_id
 
+load_dotenv()
 faker = Faker()
 
 
 @pytest.fixture(scope="session")
 def base_url():
-    return "http://54.255.195.111:5171"
+    return f"{os.getenv('BASE_URL')}:{os.getenv('PORT')}"
 
 
 @pytest.fixture(scope="session")
 def login_payload():
     return {
         "valid_username_valid_password": {
-            "username": "admin",
-            "password": "password123"
+            "username": os.getenv("ADMIN_USERNAME"),
+            "password": os.getenv("ADMIN_PASSWORD")
         },
         "invalid_username_invalid_password": {
             "username": "admin123",
@@ -37,8 +40,8 @@ def login_payload():
 
 
 @pytest.fixture(scope="session")
-def auth_header(login_payload):
-    response = requests.post(f"http://54.255.195.111:5171/login", json=login_payload["valid_username_valid_password"])
+def auth_header(base_url, login_payload):
+    response = requests.post(f"{base_url}/login", json=login_payload["valid_username_valid_password"])
     auth_token = response.json().get('authToken')
     headers = {"Authorization": f"Bearer {auth_token}"}
 
@@ -48,7 +51,8 @@ def auth_header(login_payload):
 @pytest.fixture(scope="session")
 def auth_header_with_invalid_token():
     return {
-        "Authorization": f"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzcyODc0MzM0LCJleHAiOjE3NzI5NjA3MzR9.MLdRG9fIubC-AOmi0KF0wZBYssf-CX1DmS-CGITcLBw"}
+        "Authorization": f"Bearer {os.getenv('TEST_INVALID_TOKEN')}"
+    }
 
 
 @pytest.fixture
@@ -63,25 +67,25 @@ def teacher_payload():
             "name": faker.first_name() + " " + faker.last_name(),
             "email": faker.email(),
             "department": random_department,
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_name": {
             "email": faker.email(),
             "department": random_department,
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_email": {
             "name": faker.first_name() + " " + faker.last_name(),
             "department": random_department,
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_department": {
             "name": faker.first_name() + " " + faker.last_name(),
             "email": faker.email(),
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_teacher_id": {
@@ -94,20 +98,20 @@ def teacher_payload():
             "name": faker.first_name() + " " + faker.last_name(),
             "email": faker.email(),
             "department": random_department,
-            "teacherId": faker.unique.random_number(digits=6)
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4)
         },
         "payload_with_invalid_department": {
             "name": faker.first_name() + " " + faker.last_name(),
             "email": faker.email(),
             "department": "SWE",
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_with_invalid_email": {
             "name": faker.first_name() + " " + faker.last_name(),
             "email": "johndoe#google.com",
             "department": "SWE",
-            "teacherId": faker.unique.random_number(digits=6),
+            "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
     }

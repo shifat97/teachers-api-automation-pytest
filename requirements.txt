@@ -2,3 +2,4 @@ requests
 pytest
 Faker
 pytest-html
+python-dotenv
