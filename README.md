@@ -60,10 +60,23 @@ _A professional HTML report generated after test execution, showing pass/fail st
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
+    or
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Mac: venv\Scripts\activate
+    ```
+
 3. **Install Dependencies**
 
     ```bash
     pip install -r requirements.txt
+    ```
+
+    or
+
+    ```bash
+    pip3 install -r requirements.txt
     ```
 
 4. **Environment Configuration**
