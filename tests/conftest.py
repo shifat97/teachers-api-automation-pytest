@@ -65,13 +65,13 @@ def teacher_payload():
     return {
         "valid_payload": {
             "name": faker.first_name() + " " + faker.last_name(),
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "department": random_department,
             "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_name": {
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "department": random_department,
             "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
@@ -84,25 +84,25 @@ def teacher_payload():
         },
         "payload_without_department": {
             "name": faker.first_name() + " " + faker.last_name(),
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
         },
         "payload_without_teacher_id": {
             "name": faker.first_name() + " " + faker.last_name(),
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "department": random_department,
             "designation": random_designation
         },
         "payload_without_designation": {
             "name": faker.first_name() + " " + faker.last_name(),
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "department": random_department,
             "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4)
         },
         "payload_with_invalid_department": {
             "name": faker.first_name() + " " + faker.last_name(),
-            "email": faker.email(),
+            "email": faker.first_name()+faker.email(),
             "department": "SWE",
             "teacherId": faker.unique.random_number(digits=6)+faker.unique.random_number(digits=4),
             "designation": random_designation
