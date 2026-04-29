@@ -35,7 +35,7 @@ def logger_init(response):
 
 
 def logger_config(response):
-    if os.getenv("LOG_LEVEL") == "production":
+    if os.getenv("LOG_LEVEL").upper() == "PRODUCTION":
         logger_init(response)
     else:
         return
