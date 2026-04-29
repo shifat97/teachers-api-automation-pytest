@@ -49,7 +49,7 @@ _A professional HTML report generated after test execution, showing pass/fail st
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/teachers-api-automation-pytest.git
+    git clone https://github.com/shifat97/teachers-api-automation-pytest.git
     cd teachers-api-automation-pytest
     ```
 
